@@ -1,0 +1,22 @@
+.section {
+  margin: auto;
+  margin-bottom: 30px;
+  &--container {
+    border: 3px solid black;
+  }
+  &--header {
+      border-bottom: 3px solid black;
+  }
+  &--subtitle {
+    border-right: 3px solid black;
+  }
+  &--list-item {
+    min-height: 40px;
+    &:nth-child(even) {
+      background-color: beige;
+    }
+    &:nth-child(odd) {
+      background-color: aqua;
+    }
+  }
+}

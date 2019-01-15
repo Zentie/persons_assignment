@@ -1,11 +1,13 @@
-import React from 'react';
+import React, {Component} from 'react';
 import axios from 'axios';
+import PersonCard from '../components/personCard'
+import DumpDataCard from '../components/dumpDataCard'
+import Modal from '../components/modal'
 
-class Index extends React.Component {
+class Datagrid extends React.Component {
 
   static async getInitialProps () {
-
-    var promise  =  axios.get('http://localhost:4000/persons')
+    var promise = axios.get('http://localhost:4000/persons')
       .then(response => {
         return {
           hasErrored: false,
@@ -18,38 +20,81 @@ class Index extends React.Component {
           message: error.message
         }
       });
-      return  promise;
+      return promise;
   }
 
   constructor(props) {
     super(props);
-    console.log('Index constructor called');
     this.state = {
       hasErrored: props.hasErrored,
       message: props.message,
-      personData: props.personData
+      personData: props.personData,
+      isOpen: false
     }
   };
 
-  componentDidMount() {
-
+  onUpdate = (response) => {
+    const personData = [
+      ...this.state.personData,
+      response
+    ];
+    this.setState({
+      personData
+    })
   }
 
-  componentWillUnmount() {
-
+  toggleModal = () => {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
   }
+
+  // componentDidMount() {
+
+  // }
+
+  // componentWillUnmount() {
+
+  // }
 
   render() {
     return (
-      <ul>
-        {this.state.personData.map((person, index) =>
-          <li key={index}>
-            {person.name}, {person.job}, {person.age}, {person.nick}, {person.employee}
-          </li>
-        )}
-      </ul>
+      <div className="container--main">
+        <section className="section">
+          <h1>Persons Grid</h1>
+          <button className="button button--primary" onClick={this.toggleModal}>Add</button>
+          <Modal onUpdate={this.onUpdate} show={this.state.isOpen}
+            onClose={this.toggleModal}>
+          </Modal>
+          <div className="section--container">
+            <div className="section--header flex">
+              <div className="section--subtitle flex--nine">
+                <h2>Name</h2>
+                <h2>(Job Title)</h2>
+              </div>
+              <h2 className="section--subtitle flex--one">Age</h2>
+              <h2 className="section--subtitle flex--three">Nickname</h2>
+              <h2 className="section--subtitle flex--two">Employee</h2>
+              <div className="flex--two"></div>
+            </div>
+            <ul>
+            {this.state.personData.map((person) =>
+              <li className="section--list-item" key={person.id}>
+                <PersonCard person={person} />
+              </li>
+            )}
+            </ul>
+          </div>
+        </section>
+        <section className="section">
+          <h1>Data Dump</h1>
+          <div className="section--container">
+            <DumpDataCard />
+          </div>
+        </section>
+      </div>
     )
   }
 }
 
-export default Index;
+export default Datagrid;
