@@ -72,7 +72,7 @@ class Modal extends React.Component {
               <input type="checkbox" value={this.state.employee} onChange={this.handleChange} name="employee" />
             </label>
             <div className="modal--footer">
-              <input type="submit" value="Ok" className="button button--success"/>
+              <button type="submit" className="button button--success">Ok</button>
               <button className="button button--warning" onClick={this.props.onClose}>Cancel</button>
             </div>
           </form>

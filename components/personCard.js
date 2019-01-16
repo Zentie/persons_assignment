@@ -34,7 +34,7 @@ class PersonCard extends React.Component {
               <input disabled type="checkbox" checked={this.props.person.employee} />
             </div>
             <div className="flex--two">
-              <button onClick={this.deletePerson} className="">Delete</button>
+              <button onClick={this.deletePerson} className="button button--danger">Delete</button>
             </div>
           </div>
         );

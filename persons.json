@@ -66,11 +66,11 @@
     },
     {
       "id": "9",
-      "name":"Nydia Mothershed",
-      "job":"Regional Planner",
-      "age":"49",
-      "nick":"Mom",
-      "employee":true
+      "name": "Nydia Mothershed",
+      "job": "Regional Planner",
+      "age": "49",
+      "nick": "Mom",
+      "employee": true
     },
     {
       "id": "10",
@@ -122,11 +122,11 @@
     },
     {
       "id": "16",
-      "name":"Alphonse Burbidge",
-      "job":"Geographer",
-      "age":"31",
-      "nick":"Alphie",
-      "employee":true
+      "name": "Alphonse Burbidge",
+      "job": "Geographer",
+      "age": "31",
+      "nick": "Alphie",
+      "employee": true
     },
     {
       "id": "17",
