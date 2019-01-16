@@ -27,12 +27,18 @@ class Modal extends React.Component {
 
     const newPerson = this.state
 
-    axios.post('http://localhost:4000/persons', { newPerson })
+    axios.post('http://localhost:4000/persons', newPerson )
     .then(response => {
-      this.props.onUpdate(response.data)
+      this.props.onAddingPerson(response.data)
       this.props.onClose()
     })
-
+    this.setState({
+      name: '',
+      job: '',
+      age: '',
+      nick: '',
+      employee: false
+    });
   }
 
   render() {

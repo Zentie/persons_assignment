@@ -3,9 +3,22 @@ import axios from 'axios';
 
 class PersonCard extends React.Component {
 
-    deletePerson = (person) => {
-      debugger;
+  constructor(props) {
+    super(props);
+    this.state = {
+      id: props.person.id
+    };
+  }
+
+    deletePerson = (event) => {
       event.preventDefault();
+
+      const personId = this.state.id
+
+      axios.delete('http://localhost:4000/persons/' + personId)
+      .then(response => {
+        this.props.onDeletePerson(personId)
+      })
     }
 
     render() {
@@ -21,7 +34,7 @@ class PersonCard extends React.Component {
               <input disabled type="checkbox" checked={this.props.person.employee} />
             </div>
             <div className="flex--two">
-              <button onClick={() => {this.deletePerson(this.props.person)}} className="">Delete</button>
+              <button onClick={this.deletePerson} className="">Delete</button>
             </div>
           </div>
         );

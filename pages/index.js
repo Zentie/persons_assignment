@@ -7,7 +7,7 @@ import Modal from '../components/modal'
 class Datagrid extends React.Component {
 
   static async getInitialProps () {
-    var promise = axios.get('http://localhost:4000/persons')
+    const promise = axios.get('http://localhost:4000/persons')
       .then(response => {
         return {
           hasErrored: false,
@@ -33,11 +33,17 @@ class Datagrid extends React.Component {
     }
   };
 
-  onUpdate = (response) => {
-    const personData = [
-      ...this.state.personData,
-      response
-    ];
+  onAddingPerson = (response) => {
+    const personData = [...this.state.personData, response];
+    this.setState({
+      personData
+    })
+  }
+
+  onDeletePerson = (personId) => {
+    const personData = this.state.personData;
+    const removeIndex = personData.map((item) => { return item.id; }).indexOf(personId);
+    personData.splice(removeIndex, 1);
     this.setState({
       personData
     })
@@ -49,13 +55,13 @@ class Datagrid extends React.Component {
     });
   }
 
-  // componentDidMount() {
+  componentDidMount() {
 
-  // }
+  }
 
-  // componentWillUnmount() {
+  componentWillUnmount() {
 
-  // }
+  }
 
   render() {
     return (
@@ -63,7 +69,7 @@ class Datagrid extends React.Component {
         <section className="section">
           <h1>Persons Grid</h1>
           <button className="button button--primary" onClick={this.toggleModal}>Add</button>
-          <Modal onUpdate={this.onUpdate} show={this.state.isOpen}
+          <Modal onAddingPerson={this.onAddingPerson} show={this.state.isOpen}
             onClose={this.toggleModal}>
           </Modal>
           <div className="section--container">
@@ -80,7 +86,7 @@ class Datagrid extends React.Component {
             <ul>
             {this.state.personData.map((person) =>
               <li className="section--list-item" key={person.id}>
-                <PersonCard person={person} />
+                <PersonCard onDeletePerson={this.onDeletePerson} person={person} />
               </li>
             )}
             </ul>
@@ -89,7 +95,7 @@ class Datagrid extends React.Component {
         <section className="section">
           <h1>Data Dump</h1>
           <div className="section--container">
-            <DumpDataCard />
+            <DumpDataCard personData={this.state.personData}/>
           </div>
         </section>
       </div>

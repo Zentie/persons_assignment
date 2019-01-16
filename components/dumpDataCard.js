@@ -1,13 +1,10 @@
-import {Component} from "react";
-import React from "react";
+import React, {Component} from 'react';
 
 class DumpDataCard extends Component {
     render() {
+      let personDataJson = this.props.personData.map(e=>JSON.stringify(e).replace(/|/g,'')).join(',\n');
         return (
-          <div className="flex">
-            <div>Data from - 13.01.2019. 13:20:20</div>
-            <button className="button button--primary">Download</button>
-          </div>
+          <textarea value={personDataJson} readOnly/>
         );
     }
 }
