@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 
+import getConfig from 'next/config';
+const {serverRuntimeConfig, publicRuntimeConfig} = getConfig();
+
 class PersonCard extends React.Component {
 
   constructor(props) {
@@ -10,12 +13,21 @@ class PersonCard extends React.Component {
     };
   }
 
+  static GetPersonsUrl() {
+    if (process.env.NODE_ENV === "production") {
+        return process.env.RESTURL_PERSONS_PROD
+            || publicRuntimeConfig.RESTURL_PERSONS_PROD;
+    } else {
+        return process.env.RESTURL_PERSONS_DEV;
+    }
+  }
+
     deletePerson = (event) => {
       event.preventDefault();
 
       const personId = this.state.id
 
-      axios.delete('http://localhost:4000/persons/' + personId)
+      axios.delete(PersonCard.GetPersonsUrl() + '/' + personId)
       .then(response => {
         this.props.onDeletePerson(personId)
       })

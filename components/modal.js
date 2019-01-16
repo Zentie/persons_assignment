@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 
+import getConfig from 'next/config';
+const {serverRuntimeConfig, publicRuntimeConfig} = getConfig();
+
 class Modal extends React.Component {
 
   constructor(props) {
@@ -12,6 +15,15 @@ class Modal extends React.Component {
       nick: '',
       employee: false
     };
+  }
+
+  static GetPersonsUrl() {
+    if (process.env.NODE_ENV === "production") {
+        return process.env.RESTURL_PERSONS_PROD
+            || publicRuntimeConfig.RESTURL_PERSONS_PROD;
+    } else {
+        return process.env.RESTURL_PERSONS_DEV;
+    }
   }
 
   handleChange = (event) => {
@@ -27,7 +39,7 @@ class Modal extends React.Component {
 
     const newPerson = this.state
 
-    axios.post('http://localhost:4000/persons', newPerson )
+    axios.post(Modal.GetPersonsUrl(), newPerson )
     .then(response => {
       this.props.onAddingPerson(response.data)
       this.props.onClose()

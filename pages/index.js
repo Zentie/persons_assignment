@@ -4,10 +4,22 @@ import PersonCard from '../components/personCard'
 import DumpDataCard from '../components/dumpDataCard'
 import Modal from '../components/modal'
 
+import getConfig from 'next/config';
+const {serverRuntimeConfig, publicRuntimeConfig} = getConfig();
+
 class Datagrid extends React.Component {
 
+  static GetPersonsUrl() {
+    if (process.env.NODE_ENV === "production") {
+        return process.env.RESTURL_PERSONS_PROD
+            || publicRuntimeConfig.RESTURL_PERSONS_PROD;
+    } else {
+        return process.env.RESTURL_PERSONS_DEV;
+    }
+  }
+
   static async getInitialProps () {
-    const promise = axios.get('http://localhost:4000/persons')
+    const promise = axios.get(Datagrid.GetPersonsUrl())
       .then(response => {
         return {
           hasErrored: false,
