@@ -20,8 +20,9 @@ Open a terminal in the root folder (persons_assignment) and fire up the json-ser
 ```
 npm run json-server
 ```
-make sure nothing runs on port 4000.
+make sure nothing runs on port 4000 and 3000.
 Open another terminal in the root folder of the project, and let's run next.js by typing in
 ```
 npm run dev
 ```
+and now you can open the app on http://localhost:3000 in your browser
