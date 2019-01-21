@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
+import { Container, Row, Col, Button, Modal, ModalBody } from 'reactstrap';
 import axios from 'axios';
-import PersonCard from '../components/personCard'
-import DumpDataCard from '../components/dumpDataCard'
-import Modal from '../components/modal'
+import Person from '../components/person';
+import DumpDataCard from '../components/dumpDataCard';
+import NewPersonForm from '../components/newPersonForm';
 
 import getConfig from 'next/config';
 const {serverRuntimeConfig, publicRuntimeConfig} = getConfig();
@@ -41,12 +42,13 @@ class Datagrid extends React.Component {
       hasErrored: props.hasErrored,
       message: props.message,
       personData: props.personData,
-      isOpen: false
+      modal: false
     }
   };
 
   onAddingPerson = (response) => {
     const personData = [...this.state.personData, response];
+    this.toggle();
     this.setState({
       personData
     })
@@ -61,56 +63,60 @@ class Datagrid extends React.Component {
     })
   }
 
-  toggleModal = () => {
+  toggle = () => {
     this.setState({
-      isOpen: !this.state.isOpen
+      modal: !this.state.modal
     });
-  }
-
-  componentDidMount() {
-
-  }
-
-  componentWillUnmount() {
-
   }
 
   render() {
     return (
-      <div className="container--main">
-        <section className="section">
-          <h1>Persons Grid</h1>
-          <button className="button button--primary" onClick={this.toggleModal}>Add</button>
-          <Modal onAddingPerson={this.onAddingPerson} show={this.state.isOpen}
-            onClose={this.toggleModal}>
-          </Modal>
-          <div className="section--container">
-            <div className="section--header flex">
-              <div className="section--subtitle flex--nine">
-                <h2>Name</h2>
-                <h2>(Job Title)</h2>
-              </div>
-              <h2 className="section--subtitle flex--one">Age</h2>
-              <h2 className="section--subtitle flex--three">Nickname</h2>
-              <h2 className="section--subtitle flex--two">Employee</h2>
-              <div className="flex--two"></div>
-            </div>
-            <ul>
-            {this.state.personData.map((person) =>
-              <li className="section--list-item" key={person.id}>
-                <PersonCard onDeletePerson={this.onDeletePerson} person={person} />
-              </li>
-            )}
-            </ul>
-          </div>
-        </section>
-        <section className="section">
-          <h1>Data Dump</h1>
-          <div className="section--container">
+      <Container>
+        <Row>
+          <Col>
+            <h1>Persons Grid</h1>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Button color="primary" onClick={this.toggle}>Add</Button>
+          </Col>
+        </Row>
+        <Row>
+          <Col lg="5">
+            <h2>Name</h2>
+            <h2>(Job Title)</h2>
+          </Col>
+          <Col lg="1">
+            <h2>Age</h2>
+          </Col>
+          <Col lg="3">
+            <h2>Nickname</h2>
+          </Col>
+          <Col lg="2">
+            <h2>Employee</h2>
+          </Col>
+          <Col lg="1"></Col>
+        </Row>
+        {this.state.personData.map((person) =>
+          <Person key={person.id} onDeletePerson={this.onDeletePerson} person={person} />
+        )}
+        <Row>
+          <Col><h1>Data Dump</h1></Col>
+        </Row>
+        <Row>
+          <Col>
             <DumpDataCard personData={this.state.personData}/>
-          </div>
-        </section>
-      </div>
+          </Col>
+        </Row>
+
+        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+          <ModalBody>
+            <NewPersonForm onAddingPerson={this.onAddingPerson} toggle={this.toggle}/>
+            <Button className="float-right" color="secondary" onClick={this.toggle}>Cancel</Button>
+          </ModalBody>
+        </Modal>
+      </Container>
     )
   }
 }
