@@ -27,6 +27,7 @@
     "popper.js": "^1.14.6",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
+    "react-svg-bar-chart": "^1.0.0",
     "reactstrap": "^7.1.0"
   },
   "devDependencies": {

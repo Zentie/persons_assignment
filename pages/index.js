@@ -4,6 +4,7 @@ import axios from 'axios';
 import Person from '../components/person';
 import DumpDataCard from '../components/dumpDataCard';
 import NewPersonForm from '../components/newPersonForm';
+import Graph from '../components/graph';
 
 import getConfig from 'next/config';
 const {serverRuntimeConfig, publicRuntimeConfig} = getConfig();
@@ -42,7 +43,8 @@ class Datagrid extends React.Component {
       hasErrored: props.hasErrored,
       message: props.message,
       personData: props.personData,
-      modal: false
+      modal: false,
+      graph: false
     }
   };
 
@@ -69,54 +71,73 @@ class Datagrid extends React.Component {
     });
   }
 
+  toggleGraph = () => {
+    this.setState({
+      graph: !this.state.graph
+    });
+  }
+
   render() {
     return (
-      <Container>
-        <Row>
-          <Col>
-            <h1>Persons Grid</h1>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <Button color="primary" onClick={this.toggle}>Add</Button>
-          </Col>
-        </Row>
-        <Row>
-          <Col lg="5">
-            <h2>Name</h2>
-            <h2>(Job Title)</h2>
-          </Col>
-          <Col lg="1">
-            <h2>Age</h2>
-          </Col>
-          <Col lg="3">
-            <h2>Nickname</h2>
-          </Col>
-          <Col lg="2">
-            <h2>Employee</h2>
-          </Col>
-          <Col lg="1"></Col>
-        </Row>
-        {this.state.personData.map((person) =>
-          <Person key={person.id} onDeletePerson={this.onDeletePerson} person={person} />
-        )}
-        <Row>
-          <Col><h1>Data Dump</h1></Col>
-        </Row>
-        <Row>
-          <Col>
-            <DumpDataCard personData={this.state.personData}/>
-          </Col>
-        </Row>
-
+      <div>
+        <Container className="heading">
+          <Row>
+            <Col>
+              <h1>Persons Grid</h1>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Button color="primary" onClick={this.toggle}>Add</Button>
+              <Button className="float-right" color="primary" onClick={this.toggleGraph}>Graph</Button>
+            </Col>
+          </Row>
+        </Container>
+        <Container>
+          <Row>
+            <Col lg="5">
+              <h2>Name</h2>
+              <h2>(Job Title)</h2>
+            </Col>
+            <Col lg="1">
+              <h2>Age</h2>
+            </Col>
+            <Col lg="3">
+              <h2>Nickname</h2>
+            </Col>
+            <Col lg="2">
+              <h2>Employee</h2>
+            </Col>
+            <Col lg="1"></Col>
+          </Row>
+          {this.state.personData.map((person) =>
+            <Person key={person.id} onDeletePerson={this.onDeletePerson} person={person} />
+          )}
+        </Container>
+        <Container className="heading">
+          <Row>
+            <Col><h1>Data Dump</h1></Col>
+          </Row>
+        </Container>
+        <Container>
+          <Row>
+            <Col>
+              <DumpDataCard personData={this.state.personData}/>
+            </Col>
+          </Row>
+        </Container>
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
           <ModalBody>
             <NewPersonForm onAddingPerson={this.onAddingPerson} toggle={this.toggle}/>
             <Button className="float-right" color="secondary" onClick={this.toggle}>Cancel</Button>
           </ModalBody>
         </Modal>
-      </Container>
+        <Modal isOpen={this.state.graph} toggle={this.toggleGraph} className={this.props.className}>
+          <ModalBody>
+            <Graph personData={this.state.personData}/>
+          </ModalBody>
+        </Modal>
+      </div>
     )
   }
 }

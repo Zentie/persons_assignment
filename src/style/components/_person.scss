@@ -1,0 +1,10 @@
+.person {
+  padding: 12px;
+  &:nth-child(even) {
+    background-color: lightgrey;
+    border-radius: 3px;
+  }
+  h4 {
+    min-height: 28px;
+  }
+}
