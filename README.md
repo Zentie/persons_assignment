@@ -1,6 +1,5 @@
 # Persons Assignment
-A test assignment for junior front-end developer role at Quince.
-The task was to build a small application where employees are displayed in a datagrid and can be edited, using react.js.
+The aim was to build a small application where employees are displayed in a datagrid and can be edited, using react.js.
 After I spent too much time on setting up my own development environment, I decided to use next.js since it looked like an excellent react framework to use, and extend. I added axios to the project to handle requests and json-server for serving the provided persons.json file.
 ## Getting Started
 First, you will need to clone the repository. Create a project folder and open a terminal inside it, then type in
